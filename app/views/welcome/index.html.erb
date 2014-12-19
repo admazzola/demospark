@@ -112,7 +112,7 @@ $(function() {
         	<% daysToSee.times do %>     		
         		
         		<% 
-        		numcalls = Call.where(created_at: (today - 1.day)..today).length
+        		numcalls = 0
         		%>
         		<% today = today - 1.day; %>
         		

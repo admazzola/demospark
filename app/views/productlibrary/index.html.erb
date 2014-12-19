@@ -1,0 +1,70 @@
+<h2>Product Library</h2>
+
+<% if Productlibrary.all.first %>
+
+<table class="table table-hover collection">
+      <thead>
+        <tr>
+        	<th>ID</th>
+          <th>Catalog Number</th>
+          <th>Description</th>
+        
+        </tr>
+      </thead>
+      <tbody>
+
+
+          <%
+          pagenum = params[:id].to_i
+          recordsPerPage = 20
+          offset = pagenum * recordsPerPage
+          %>
+
+        <% # Event.limit(recordsPerPage).offset(offset).each do |item| %>
+          <% Productlibrary.all.each do |item| %>
+     
+          
+        <tr>
+        	
+        	
+        	
+  	<td> <%= item.id %> </td>
+    <td> <%= item.catalog_number %> </td>
+    
+    
+    <td> <%= item.description %> </td>
+   
+
+  
+    </tr>
+
+    <% end  %>
+
+       
+       
+      </tbody>
+    </table>
+
+
+ <% else  %>
+
+<div class="alert alert-danger">No events are listed!</div>
+
+
+ <% end  %>
+
+
+
+<div class="panel panel-default">
+  <div class="panel-heading">
+    <h3 class="panel-title">List a new product</h3>
+  </div>
+  <div class="panel-body">
+    
+
+  </div>
+</div>
+
+
+
+

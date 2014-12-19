@@ -1,0 +1,2 @@
+module PartdetailHelper
+end

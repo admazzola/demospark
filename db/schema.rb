@@ -11,79 +11,58 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20141217214543) do
+ActiveRecord::Schema.define(:version => 20141218211232) do
 
-  create_table "calls", :force => true do |t|
+  create_table "checkouts", :force => true do |t|
+    t.integer  "user_checkingout_id"
+    t.integer  "user_contact_id"
+    t.integer  "part_id"
     t.integer  "customer_id"
-    t.integer  "category_id"
-    t.text     "text"
-    t.datetime "created_at",  :null => false
-    t.datetime "updated_at",  :null => false
-    t.integer  "user_id"
-  end
-
-  create_table "cases", :force => true do |t|
-    t.datetime "created_at", :null => false
-    t.datetime "updated_at", :null => false
-  end
-
-  create_table "categories", :force => true do |t|
-    t.string   "name"
-    t.datetime "created_at", :null => false
-    t.datetime "updated_at", :null => false
-  end
-
-  create_table "category_hints", :force => true do |t|
-    t.integer  "category_id"
-    t.integer  "parent_id"
-    t.string   "text"
-    t.datetime "created_at",  :null => false
-    t.datetime "updated_at",  :null => false
-  end
-
-  create_table "companies", :force => true do |t|
-    t.string   "name"
-    t.integer  "BPID"
-    t.datetime "created_at", :null => false
-    t.datetime "updated_at", :null => false
+    t.string   "customer_contact_name"
+    t.string   "customer_contact_phone"
+    t.datetime "time_out"
+    t.datetime "expected_time_in"
+    t.datetime "actual_time_in"
+    t.datetime "created_at",             :null => false
+    t.datetime "updated_at",             :null => false
   end
 
   create_table "customers", :force => true do |t|
-    t.string   "name"
-    t.string   "phone_number"
-    t.string   "email"
-    t.datetime "created_at",   :null => false
-    t.datetime "updated_at",   :null => false
-    t.integer  "company_id"
-    t.text     "notes"
-  end
-
-  create_table "events", :force => true do |t|
-    t.string   "name"
-    t.text     "description"
-    t.date     "date"
+    t.integer  "companyname"
+    t.integer  "address"
     t.datetime "created_at",  :null => false
     t.datetime "updated_at",  :null => false
   end
 
-  create_table "supportlinks", :force => true do |t|
-    t.string   "name"
-    t.string   "url"
-    t.integer  "sortorder"
-    t.datetime "created_at", :null => false
-    t.datetime "updated_at", :null => false
+  create_table "partdetails", :force => true do |t|
+    t.string   "catalog_id", :limit => nil
+    t.string   "barcode",    :limit => nil
+    t.string   "series",     :limit => nil
+    t.datetime "created_at"
+    t.datetime "updated_at"
   end
+
+  add_index "partdetails", ["id"], :name => "sqlite_autoindex_partdetails_1", :unique => true
+
+  create_table "productlibraries", :force => true do |t|
+    t.string   "catalog_number", :limit => nil
+    t.text     "description"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "productlibraries", ["id"], :name => "sqlite_autoindex_productlibraries_1", :unique => true
 
   create_table "users", :force => true do |t|
-    t.string   "email",            :null => false
-    t.string   "crypted_password", :null => false
-    t.string   "salt",             :null => false
-    t.datetime "created_at",       :null => false
-    t.datetime "updated_at",       :null => false
-    t.string   "firstname"
-    t.string   "lastname"
+    t.string   "email",            :limit => nil
+    t.string   "crypted_password", :limit => nil
+    t.string   "salt",             :limit => nil
+    t.datetime "created_at"
+    t.datetime "updated_at"
+    t.string   "firstname",        :limit => nil
+    t.string   "lastname",         :limit => nil
   end
 
-  add_index "users", ["email"], :name => "index_users_on_email", :unique => true
+  add_index "users", ["id"], :name => "sqlite_autoindex_users_1", :unique => true
 
 end
