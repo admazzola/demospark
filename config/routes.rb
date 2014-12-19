@@ -19,6 +19,10 @@ resources :partdetail
 get 'login' => 'user_sessions#new', :as => :login
 post 'logout' => 'user_sessions#destroy', :as => :logout
   
+  
+  match '/partdetail/partinfo/:id' => 'partdetail#partinfo'
+  
+  
   match 'customer' => 'customer#index'
   match 'customer/update' => 'customer#update'
   match 'customer/destroy' => 'customer#destroy'

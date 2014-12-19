@@ -9,89 +9,113 @@
 
 <div class="row">
        <div class="col-lg-12">
-<%= form_for :checkout, url: new_checkout_path, html: {id: "newcheckoutform"} do |f| %>
+<%= form_for :checkout, url: {controller: "checkout",action: "create"}, html: {id: "newcheckoutform"} do |f| %>
+
+
+
+
+
 
 <div class="row">
 	<div class="col-lg-3">
 		
-  <div class="form-group" id="callername_group">
-    <%= f.label :barcode %><br>
-    <%= f.text_field :barcode, class:"form-control" %>
-  </div>
   
+  <div class="form-group ">
+    <%= f.label :mcmccontact %><br>
+    <%= f.text_field :mcmccontact, class:"form-control" %>
+   </div>
+   
+   
+   
+
+
+<div class="form-group" id="input-date">
+   <label for="InputDate">Expected Return Date</label>
+   <br>
+
+ <input class="form-control" type="text" id="checkout_date" name="checkout[date]">
+</div>
+
+ <script>
+  $(function() {
+    $( "#checkout_date" ).datepicker();
+  });
+  </script>
+   
+   
+   
    
   </div>
   <div class="col-lg-3">
   	</div>
   <div class="col-lg-3">
   
-  <div class="form-group ">
-    <%= f.label :company %><br>
-    <%= f.text_field :company, class:"form-control" %>
-   </div>
+  
   
    <div class="form-group ">
-    <%= f.label :BPID %><br>
-    <%= f.text_field :BPID, class:"form-control" %>
+    <%= f.label :customeraccount %><br>
+    <%= f.text_field :customeraccount, class:"form-control" %>
+  </div>
+  
+  <div class="form-group ">
+    <%= f.label :customercontact %><br>
+    <%= f.text_field :customercontact, class:"form-control" %>
   </div>
   
   <div class="form-group ">
     <%= f.label :phone %><br>
     <%= f.text_field :phone, class:"form-control" %>
   </div>
+ 
+  </div>
+ </div>
+ 
+ 
+<div class="panel panel-default">
+	<div class="panel-heading">
+    <h3 class="panel-title">Parts List</h3>
+  </div>
+  <div class="panel-body">
+  	
+  	<div class="col-lg-3">
+  <div class="form-group" id="callername_group">
+    <%= f.label :barcode %><br>
+    <%= f.text_field :barcode, class:"form-control" %>
+           
+  </div>
+  	<a href="javascript:addpart()"  id="addpart_button" class="btn btn-success disabled">Add Part</a>
+    
+   </div>
   
-  <div class="form-group ">
-    <%= f.label :email %><br>
-    <%= f.text_field :email, class:"form-control" %>
+  <div class="col-lg-3">
+  	<div id="part_catalognumber">  </div>
+  	<div id="part_description">  </div>
+  	 </div>
+  
+   <div class="col-lg-6">
+  	<div id="part_list">  </div>
+  	 </div>
+  
+  
   </div>
  
+  
+  
   </div>
- </div>
- <div class="row">
-  <p>
-    <%= f.label :text %><br>
-    <%= f.text_area(:text, :rows => 5, :class => "logarea", :placeholder => 'Enter text.') %>
-  </p>
- </div>
-
- 
-
  
  
  
  
   <p>
-  	<a href="javascript:submitform()"  id="submitbutton" class="btn btn-success savecall-button col-md-2 col-md-offset-2">Save Call</a>
-    <% f.submit  "Save Call", class: "btn btn-success savecall-button col-md-2 col-md-offset-2" %>
-    <div id="errormessage" class= "btn btn-danger savecall-button col-md-2 col-md-offset-2" style="display:none"></div>
+  	<a href="javascript:submitform()"  id="submitbutton" class="btn btn-success savecall-button col-md-3 col-md-offset-3">Checkout</a>
+    <% f.submit  "Save Call", class: "btn btn-success savecall-button col-md-3 col-md-offset-3" %>
+    <div id="errormessage" class= "btn btn-danger savecall-button col-md-3 col-md-offset-3" style="display:none"></div>
   </p>
 <% end %>
 </div>
 </div>
 
 
-
-<div class="row">
-       <div class="col-lg-12">
-      <h1>Hints</h1>
-      <div id="hintscontainer">
-      
-      </div>
-      </div>
- </div>
-
-
-
-
-<div class="row">
-       <div class="col-lg-12">
-      <h1>Previous conversations</h1>
-      <div id="previousconversationcontainer">
-      
-      
-      </div>
- </div>
-</div>
 
 
 <% content_for :head do %>
@@ -101,10 +125,32 @@
   
 
   
+  	 var availableBarcodes = [
+      
+<% Partdetail.all.each do |c| %>
+"<%= c.barcode %>",
+<% end %>     
+    ];
   
   
   $(function() {
   	
+  	
+    
+  	
+  		//SET AVAILABLE AUTOCOMPLETES FOR Users
+  	 var availableCompanyTags = [
+      
+<% User.all.each do |c| %>
+"<%= c.name %>",
+<% end %>     
+    ];
+    
+       
+    
+    $( "#checkout_mcmccontact" ).autocomplete({
+      source: availableCompanyTags
+    });
   	
   	
     
@@ -113,9 +159,11 @@
     
     $( "#checkout_barcode" ).on( "keyup", function( event, ui ){
     	
+        	$( "#addpart_button" ).addClass("disabled")
+        	$("#part_description").html("");
+  			$("#part_catalognumber").html("");
         	
-        	
-        	if( $( "#checkout_barcode" ).val().length == 4 )
+        	if( $( "#checkout_barcode" ).val().length >= 4 )
         	{
         		barcode = $( "#checkout_barcode" ).val();
         		
@@ -137,11 +185,85 @@
   {
   	
   	console.log("filling data" + barcode);
-  	
-  	
-  	
-  	
+  	  	  	
+  	  	  	var foundMatch = false;
+  	  	  	
+  	  	  	
+  	  	  	for(var i=0;i<availableBarcodes.length;i++)
+  	  	  	{
+  	  	  		if(availableBarcodes[i] == barcode)
+  	  	  		{  	  	  			
+  	  	  			foundMatch = true;
+  	  	  		}
+  	  	  		
+  	  	  	}
+  	  	  	
+  	  	  	
+  	  	  	if(foundMatch)
+  	  	  	{
+  	  	  		$( "#addpart_button" ).removeClass("disabled")
+  	  	  		
+  	  	  			var partdata = $.ajax({
+   			url:'/partdetail/partinfo/'+barcode, //Defined in your routes file
+   			
+		} )
+  		.done(function(data) {
+  			  console.log( "success" );
+  			 console.log( data );
+  			 
+  			 catalognumber = data[0];
+  			 description = data[1];
+  			  			 
+  			 $("#part_catalognumber").html(catalognumber);
+  			$("#part_description").html(description);
+  			 
+ 		 })
+  		.fail(function() {
+ 		   console.log( "error" );
+  		})
+  		.always(function() {
+   			console.log( "complete" );
+		 });
+  	  	  	}
+  	  	  	
+  	  	  	
   }
+  
+  function addpart(barcode)
+  {
+  	
+  	
+  	 var listedpart = document.createElement( "div" );
+  			 	 listedpart.className+=" alert alert-info";
+  			 	  
+  			 	  
+  			 	  
+  	var barcode_container = document.createElement( "div" );
+  		barcode_container.innerHTML = 	$( "#checkout_barcode" ).val() ;  			 
+  		 listedpart.appendChild( barcode_container );
+  	var catalognumber_container = document.createElement( "div" );
+  		catalognumber_container.innerHTML = 	 $( "#part_catalognumber" ).html() ;  			 
+  		 listedpart.appendChild( catalognumber_container );
+  	var description_container = document.createElement( "div" );
+  		description_container.innerHTML = 	 $( "#part_description" ).html();  			 
+  		 listedpart.appendChild( description_container );		 
+  			 
+  			 
+  			  $("#part_list").append( listedpart );
+  			  
+  			  
+  			  
+  	$( "#checkout_barcode" ).val("");
+  	 $("#part_catalognumber").html("");
+  	$("#part_description").html("");
+  	$( "#addpart_button" ).addClass("disabled");
+  	
+  	
+  	
+  	
+  	console.log("adding parts");
+  }
+  
  
   function submitform()
   {
@@ -149,28 +271,12 @@
   	errormessage = "";
   	
   	
-  	if($('#call_caller').val().length == 0)
-  	{
-  		errormessage = "Invalid caller name"
-  		$('#callername_group').addClass('has-error');
-  		$('#callername_group').addClass('animated bounce');
-  		
-  	}
-  	
-  	else if($('#call_category_id').val() == 0)
-  	{
-  		errormessage = "Please select a category topic"
-  		  		
-  		$('#category_group').addClass('has-error');
-  		$('#category_group').addClass('animated bounce');
-  	}
-  	  	
   	
   	
   	
   	if(errormessage.length == 0)
   	{
-  	$('#newcallform').submit();
+  	$('#newcheckoutform').submit();
   	}
   	else
   	{
