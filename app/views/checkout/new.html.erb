@@ -1,0 +1,207 @@
+ 
+ 
+ <div class="row">
+                <div class="col-lg-12">
+                    <h1 class="page-header">Checkout Part</h1>
+                </div>
+                <!-- /.col-lg-12 -->
+            </div>
+
+<div class="row">
+       <div class="col-lg-12">
+<%= form_for :checkout, url: new_checkout_path, html: {id: "newcheckoutform"} do |f| %>
+
+<div class="row">
+	<div class="col-lg-3">
+		
+  <div class="form-group" id="callername_group">
+    <%= f.label :barcode %><br>
+    <%= f.text_field :barcode, class:"form-control" %>
+  </div>
+  
+   
+  </div>
+  <div class="col-lg-3">
+  	</div>
+  <div class="col-lg-3">
+  
+  <div class="form-group ">
+    <%= f.label :company %><br>
+    <%= f.text_field :company, class:"form-control" %>
+   </div>
+  
+   <div class="form-group ">
+    <%= f.label :BPID %><br>
+    <%= f.text_field :BPID, class:"form-control" %>
+  </div>
+  
+  <div class="form-group ">
+    <%= f.label :phone %><br>
+    <%= f.text_field :phone, class:"form-control" %>
+  </div>
+  
+  <div class="form-group ">
+    <%= f.label :email %><br>
+    <%= f.text_field :email, class:"form-control" %>
+  </div>
+ 
+  </div>
+ </div>
+ <div class="row">
+  <p>
+    <%= f.label :text %><br>
+    <%= f.text_area(:text, :rows => 5, :class => "logarea", :placeholder => 'Enter text.') %>
+  </p>
+ </div>
+
+ 
+
+ 
+ 
+ 
+ 
+  <p>
+  	<a href="javascript:submitform()"  id="submitbutton" class="btn btn-success savecall-button col-md-2 col-md-offset-2">Save Call</a>
+    <% f.submit  "Save Call", class: "btn btn-success savecall-button col-md-2 col-md-offset-2" %>
+    <div id="errormessage" class= "btn btn-danger savecall-button col-md-2 col-md-offset-2" style="display:none"></div>
+  </p>
+<% end %>
+</div>
+</div>
+
+
+
+<div class="row">
+       <div class="col-lg-12">
+      <h1>Hints</h1>
+      <div id="hintscontainer">
+      
+      </div>
+      </div>
+ </div>
+
+
+
+
+<div class="row">
+       <div class="col-lg-12">
+      <h1>Previous conversations</h1>
+      <div id="previousconversationcontainer">
+      
+      
+      </div>
+ </div>
+</div>
+
+
+<% content_for :head do %>
+ <link rel="stylesheet" href="//code.jquery.com/ui/1.11.1/themes/smoothness/jquery-ui.css">
+ 
+  <script>
+  
+
+  
+  
+  
+  $(function() {
+  	
+  	
+  	
+    
+    
+    //DO ONEVENTS FOR CUSTOMER FIELD
+    
+    $( "#checkout_barcode" ).on( "keyup", function( event, ui ){
+    	
+        	
+        	
+        	if( $( "#checkout_barcode" ).val().length == 4 )
+        	{
+        		barcode = $( "#checkout_barcode" ).val();
+        		
+        		
+        		fillCodeData(barcode)
+        		        		
+        	}
+        	
+    	 
+    }  );
+    
+ 
+    
+    
+  });
+  
+  
+  function fillCodeData(barcode)
+  {
+  	
+  	console.log("filling data" + barcode);
+  	
+  	
+  	
+  	
+  }
+ 
+  function submitform()
+  {
+  	
+  	errormessage = "";
+  	
+  	
+  	if($('#call_caller').val().length == 0)
+  	{
+  		errormessage = "Invalid caller name"
+  		$('#callername_group').addClass('has-error');
+  		$('#callername_group').addClass('animated bounce');
+  		
+  	}
+  	
+  	else if($('#call_category_id').val() == 0)
+  	{
+  		errormessage = "Please select a category topic"
+  		  		
+  		$('#category_group').addClass('has-error');
+  		$('#category_group').addClass('animated bounce');
+  	}
+  	  	
+  	
+  	
+  	
+  	if(errormessage.length == 0)
+  	{
+  	$('#newcallform').submit();
+  	}
+  	else
+  	{
+  		
+  		$('#submitbutton').hide();
+  		$('#errormessage').show();
+  		$('#errormessage').addClass('animated shake');
+  		$('#errormessage').html(errormessage);
+  		
+  		
+  		setTimeout(
+  			function() 
+  				{
+  				  $('#errormessage').hide();
+  					$('#submitbutton').show();
+  					
+  					$('#category_group').removeClass('has-error');
+  					
+  					
+  					
+ 				 }, 1500);
+  
+  
+  	}
+  	
+  }
+  
+    
+    
+  </script> 
+  
+<% end %>
+
+
