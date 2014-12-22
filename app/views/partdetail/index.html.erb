@@ -7,7 +7,7 @@
   <thead>
     <tr>
       <th>ID</th>
-   <th>Catalog Id</th>
+   <th>Catalog Number</th>
     <th>Barcode</th>
      <th></th>
    		<th></th>
@@ -18,12 +18,28 @@
   <tbody>
    <% Partdetail.all.each do |item| %>
     
+    <%
+    
+    product = Productlibrary.find(item.catalog_id )
+    
+    
+    %>
+    
+    
      <tr>
         	
         	
         	
   	<td> <%= item.id %> </td>
-    <td> <%= item.catalog_id %> </td>
+  	
+  	
+    <td> 
+    	<% if(product) %>
+    <a href="<%= url_for product %>">	<%= product.catalog_number %> </a>
+    	<% end %>
+    	</td>
+    
+    
     
     
     <td> <%= item.barcode %> </td>
