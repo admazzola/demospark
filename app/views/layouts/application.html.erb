@@ -73,7 +73,8 @@
             	
             	 <% if current_user %>
      		 
-   
+     <a href="<%= url_for :controller => 'partdetail', :action => 'new' %>">
+<button type="button" class="btn btn-default">Add Part</button></a>
     			
    			
             <a href="<%= url_for :controller => 'checkout', :action => 'new' %>">
