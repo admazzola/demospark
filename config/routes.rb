@@ -5,6 +5,8 @@ Testlog::Application.routes.draw do
 resources :user_sessions
 resources :users
 
+match 'checkout/checkin' => 'checkout#checkin'
+
  resources :checkout
   resources :customer
   resources :productlibrary

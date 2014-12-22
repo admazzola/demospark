@@ -52,9 +52,6 @@
 
     <div id="wrapper">
 
-
-
-  
   
         <!-- Navigation -->
         <nav class="navbar navbar-default navbar-static-top" role="navigation" style="margin-bottom: 0">
@@ -70,8 +67,6 @@
             <!-- /.navbar-header -->
             
             
-           
-			
 			
             <ul class="nav navbar-top-links navbar-right">
             	
@@ -356,6 +351,7 @@
 		
 		<div>
     <p id="notice" class="alert alert-warning absolutecenter" ><%= flash[:notice] %></p>
+     <p id="alert" class="alert alert-danger absolutecenter" ><%= flash[:alert] %></p>
  <!--   <p id="alert" class="alert alert-warning" ><%= flash[:alert] %></p>  -->
   </div>
   
@@ -389,6 +385,14 @@
 $( document ).ready(function() {
 	
 	
+		if( document.getElementById("alert").innerHTML == ""  ){
+		
+		$("#alert").hide();
+	}
+	
+	setTimeout(function(){
+ $("#alert").fadeOut("slow");
+ }, 4000);
 	
 	
 	if( document.getElementById("notice").innerHTML == ""  ){

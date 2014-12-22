@@ -1,1 +1,92 @@
-index
+
+<h1>Checkouts</h1>
+
+
+  <div class="table-responsive">
+    <table id="maintable" class="table table-bordered table-hover table-striped">
+  <thead>
+    <tr>
+      <th>MCMC Contact</th>
+      <th>Part Barcode</th>  
+      <th>Customer Name</th>  
+      <th>Checked Out</th>  
+       <th>Expected Back</th>  
+       <th>Status</th>  
+     
+      <th></th>
+       <th></th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% Checkout.all.each do |checkout| %>
+    
+     <%	     
+     
+     
+    contact = User.find(checkout.user_contact_id)
+    part = Partdetail.find(checkout.part_id)
+    customer = Customer.find(checkout.customer_id)
+    
+    
+    checkedIn = checkout.actual_time_in != nil
+    
+    status = ("IN" if checkedIn) || "OUT"
+   
+    %>
+    
+      <tr>
+        <td><%= contact.name %></td>
+        
+        <td><%= part.barcode %></td>
+        
+        <td><%= customer.companyname %></td>
+        
+        <td><%= checkout.time_out.to_formatted_s(:long_ordinal) %></td>
+  		 <td><%= checkout.expected_time_in.to_formatted_s(:long_ordinal) %></td>
+  		 <td><%= status %></td>
+
+          <td>
+        	<a href = "<%= url_for checkout %>">
+        	<button type="button" class="btn btn-show">Show</button>
+        	</a>        	
+        </td>
+        
+        
+        <td>
+        	<% if !checkedIn %>
+        	<a href = "<%= url_for :controller => 'checkout', :action => 'checkin', :id => checkout.id  %>">
+        	<button type="button" class="btn btn-success">Check In</button>
+        	</a>       
+        	   <% end %> 	
+        </td>
+     
+        <!-- 
+        <td>
+        	<a href = "<%= url_for edit_checkout_path(checkout) %>">
+        	<button type="button" class="btn btn-edit">Edit</button>
+        	</a>        	
+        </td>
+        
+        <td>
+        	<a href = "<%= url_for checkout  %>" data-confirm="Are you sure?" data-method="delete" rel="nofollow">
+        	<button type="button" class="btn btn-destroy">Destroy</button>
+        	</a>        	
+        </td>
+        -->
+        
+        
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+</div>
+
+
+<script>
+	$(document).ready(function() {
+    $('#maintable').dataTable();
+} );
+
+</script>

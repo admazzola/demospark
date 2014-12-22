@@ -81,7 +81,7 @@
   <div class="form-group" id="callername_group">
     <%= f.label :barcode %><br>
     <%= f.text_field :barcode, class:"form-control" %>
-           
+    <%= f.hidden_field :listedbarcodes %>
   </div>
   	<a href="javascript:addpart()"  id="addpart_button" class="btn btn-success disabled">Add Part</a>
     
@@ -201,7 +201,7 @@
   	  	  	
   	  	  	if(foundMatch)
   	  	  	{
-  	  	  		$( "#addpart_button" ).removeClass("disabled")
+  	  	  		
   	  	  		
   	  	  			var partdata = $.ajax({
    			url:'/partdetail/partinfo/'+barcode, //Defined in your routes file
@@ -213,9 +213,18 @@
   			 
   			 catalognumber = data[0];
   			 description = data[1];
-  			  			 
+  			 checkedout = data[2];
+  			   			  			 
   			 $("#part_catalognumber").html(catalognumber);
   			$("#part_description").html(description);
+  			
+  			if(checkedout == true)
+  			{
+  				$("#part_description").html("ALREADY CHECKED OUT");
+  			}else
+  			{
+  				$( "#addpart_button" ).removeClass("disabled");
+  			}
   			 
  		 })
   		.fail(function() {
@@ -251,7 +260,7 @@
   			 
   			  $("#part_list").append( listedpart );
   			  
-  			  
+  	  $("#checkout_listedbarcodes").val($("#checkout_listedbarcodes").val()+$( "#checkout_barcode" ).val()+" ");
   			  
   	$( "#checkout_barcode" ).val("");
   	 $("#part_catalognumber").html("");
