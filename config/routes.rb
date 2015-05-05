@@ -1,11 +1,10 @@
-Testlog::Application.routes.draw do
+Rails.application.routes.draw do
   
-
 
 resources :user_sessions
 resources :users
 
-match 'checkout/checkin' => 'checkout#checkin'
+get 'checkout/checkin' => 'checkout#checkin'
 
  resources :checkout
   resources :customer
@@ -22,16 +21,16 @@ get 'login' => 'user_sessions#new', :as => :login
 post 'logout' => 'user_sessions#destroy', :as => :logout
   
   
-  match '/partdetail/partinfo/:id' => 'partdetail#partinfo'
+  get '/partdetail/partinfo/:id' => 'partdetail#partinfo'
   
   
-  match 'customer' => 'customer#index'
-  match 'customer/update' => 'customer#update'
-  match 'customer/destroy' => 'customer#destroy'
+  get 'customer' => 'customer#index'
+  get 'customer/update' => 'customer#update'
+  get 'customer/destroy' => 'customer#destroy'
 
     
 
-match 'category/hints/:id' => 'category#hints'
+get 'category/hints/:id' => 'category#hints'
 
 get '/search' => 'search#index'
 
@@ -41,11 +40,11 @@ get '/search' => 'search#index'
   # first created -> highest priority.
 
   # Sample of regular route:
-  #   match 'products/:id' => 'catalog#view'
+  #   get 'products/:id' => 'catalog#view'
   # Keep in mind you can assign values other than :controller and :action
 
   # Sample of named route:
-  #   match 'products/:id/purchase' => 'catalog#purchase', :as => :purchase
+  #   get 'products/:id/purchase' => 'catalog#purchase', :as => :purchase
   # This route can be invoked with purchase_url(:id => product.id)
 
   # Sample resource route (maps HTTP verbs to controller actions automatically):
@@ -92,5 +91,5 @@ get '/search' => 'search#index'
 
   # This is a legacy wild controller route that's not recommended for RESTful applications.
   # Note: This route will make all actions in every controller accessible via GET requests.
-  # match ':controller(/:action(/:id))(.:format)'
+  # get ':controller(/:action(/:id))(.:format)'
 end

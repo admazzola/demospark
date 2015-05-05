@@ -9,11 +9,11 @@
 # from scratch. The latter is a flawed and unsustainable approach (the more migrations
 # you'll amass, the slower it'll run and the greater likelihood for issues).
 #
-# It's strongly recommended to check this file into your version control system.
+# It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20141222165837) do
+ActiveRecord::Schema.define(version: 20141222165837) do
 
-  create_table "checkouts", :force => true do |t|
+  create_table "checkouts", force: true do |t|
     t.integer  "user_checkingout_id"
     t.integer  "user_contact_id"
     t.integer  "part_id"
@@ -23,46 +23,42 @@ ActiveRecord::Schema.define(:version => 20141222165837) do
     t.datetime "time_out"
     t.datetime "expected_time_in"
     t.datetime "actual_time_in"
-    t.datetime "created_at",             :null => false
-    t.datetime "updated_at",             :null => false
-  end
-
-  create_table "customers", :force => true do |t|
-    t.datetime "created_at",  :null => false
-    t.datetime "updated_at",  :null => false
-    t.string   "companyname"
-    t.string   "address"
-  end
-
-  create_table "partdetails", :force => true do |t|
-    t.string   "catalog_id", :limit => nil
-    t.string   "barcode",    :limit => nil
-    t.string   "series",     :limit => nil
     t.datetime "created_at"
     t.datetime "updated_at"
   end
 
-  add_index "partdetails", ["id"], :name => "sqlite_autoindex_partdetails_1", :unique => true
+  create_table "customers", force: true do |t|
+    t.datetime "created_at"
+    t.datetime "updated_at"
+    t.string   "companyname"
+    t.string   "address"
+  end
 
-  create_table "productlibraries", :force => true do |t|
-    t.string   "catalog_number", :limit => nil
+  create_table "partdetails", force: true do |t|
+    t.integer  "catalog_id"
+    t.integer  "barcode"
+    t.string   "series"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "productlibraries", force: true do |t|
+    t.string   "catalog_number"
     t.text     "description"
     t.datetime "created_at"
     t.datetime "updated_at"
   end
 
-  add_index "productlibraries", ["id"], :name => "sqlite_autoindex_productlibraries_1", :unique => true
-
-  create_table "users", :force => true do |t|
-    t.string   "email",            :limit => nil
-    t.string   "crypted_password", :limit => nil
-    t.string   "salt",             :limit => nil
+  create_table "users", force: true do |t|
+    t.string   "email",            null: false
+    t.string   "crypted_password", null: false
+    t.string   "salt",             null: false
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.string   "firstname",        :limit => nil
-    t.string   "lastname",         :limit => nil
+    t.string   "firstname"
+    t.string   "lastname"
   end
 
-  add_index "users", ["id"], :name => "sqlite_autoindex_users_1", :unique => true
+  add_index "users", ["email"], name: "index_users_on_email", unique: true
 
 end
