@@ -13,6 +13,7 @@ gem 'uglifier', '>= 1.3.0'
 # Use CoffeeScript for .coffee assets and views
 gem 'coffee-rails', '~> 4.1.0'
 
+gem 'font-awesome-rails'
 
 gem 'sqlite3'
 
@@ -28,7 +29,7 @@ gem 'jquery-rails'
 #gem "less-rails"
 #gem 'twitter-bootstrap-rails', '~> 2.1.7'
 
-gem 'sorcery'
+#gem 'sorcery'
 
 # To use ActiveModel has_secure_password
 # gem 'bcrypt-ruby', '~> 3.0.0'

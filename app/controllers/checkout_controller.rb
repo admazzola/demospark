@@ -39,7 +39,7 @@ class CheckoutController < ApplicationController
       
     end
     
-     render text: mcmccontact_id
+     #render text: mcmccontact_id
     
     #create new customer account if necessary
      #customer = Customer.where()
@@ -56,12 +56,14 @@ class CheckoutController < ApplicationController
     allbarcodes.each do |barcode|
       part = Partdetail.where(:barcode => barcode).first
       
-      
+      if !part.checked_out
       checkout = Checkout.new(:user_checkingout_id => current_user.id,:user_contact_id => mcmccontact_id,:part_id => part.id,:customer_id => customer.id,
       :customer_contact_name=> params['checkout']['customercontact'],:customer_contact_phone=> params['checkout']['phone'],
       :time_out => Time.new,:expected_time_in => expected_date)
-       checkout.save
       
+      
+       checkout.save
+      end   
     end
     end
     

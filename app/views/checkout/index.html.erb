@@ -10,7 +10,8 @@
       <th>Part Barcode</th>  
       <th>Customer Name</th>  
       <th>Checked Out</th>  
-       <th>Expected Back</th>  
+       <th>Expected Return</th>  
+       <th>Actual Return</th>  
        <th>Status</th>  
      
       <th></th>
@@ -29,9 +30,9 @@
     customer = Customer.find(checkout.customer_id)
     
     
-    checkedIn = checkout.actual_time_in != nil
     
-    status = ("IN" if checkedIn) || "OUT"
+    
+    status = if checkout.checkedBackIn then "IN" else "OUT" end
    
     %>
     
@@ -44,6 +45,7 @@
         
         <td><%= checkout.time_out.to_formatted_s(:long_ordinal) %></td>
   		 <td><%= checkout.expected_time_in.to_formatted_s(:long_ordinal) %></td>
+  		  <td><%= if checkout.actual_time_in.nil? then '' else checkout.actual_time_in.to_formatted_s(:long_ordinal) end %></td>
   		 <td><%= status %></td>
 
           <td>
@@ -54,7 +56,7 @@
         
         
         <td>
-        	<% if !checkedIn %>
+        	<% if !checkout.checkedBackIn %>
         	<a href = "<%= url_for :controller => 'checkout', :action => 'checkin', :id => checkout.id  %>">
         	<button type="button" class="btn btn-success">Check In</button>
         	</a>       

@@ -13,10 +13,8 @@ class PartdetailController < ApplicationController
     part = Partdetail.where(barcode: code).first
     product = Productlibrary.find(part.catalog_id)
     
-    checkouts = Checkout.where(:part_id => part.id, :actual_time_in => nil).first
-    checkedout = checkouts != nil
-    
-    render json: [product.catalog_number,product.description,checkedout]
+       
+    render json: [product.catalog_number,product.description,part.checked_out]
     
   end
   

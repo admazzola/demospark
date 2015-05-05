@@ -136,10 +136,8 @@
   $(function() {
   	
   	
-    
-  	
   		//SET AVAILABLE AUTOCOMPLETES FOR Users
-  	 var availableCompanyTags = [
+  	 var availableUserTags = [
       
 <% User.all.each do |c| %>
 "<%= c.name %>",
@@ -149,7 +147,7 @@
        
     
     $( "#checkout_mcmccontact" ).autocomplete({
-      source: availableCompanyTags
+      source: availableUserTags
     });
   	
   	
